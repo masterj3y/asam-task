@@ -1,0 +1,26 @@
+services:
+  mongodb:
+    image: mongo:8.0.3
+    container_name: user_db
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: user
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongo-data:/data/db
+
+  backend:
+    container_name: user_backend
+    build:
+      context: .
+    environment:
+      PORT: 8080
+      MONGODB_URI: "mongodb://user:password@mongodb:27017/usermngmntdb?authSource=admin"
+      JWT_SECRET: superstrongjwtsecret
+      JWT_EXPIRATION: 90d
+    ports:
+      - "8080:8080"
+
+volumes:
+  mongo-data:
