@@ -33,3 +33,33 @@ This project serves as an assessment to evaluate programming proficiency for ASA
 -   **Kubernetes (K8s)**: For guidance on running the application in a Kubernetes cluster, refer to the following [link](https://github.com/masterj3y/asam-task/blob/main/k8s/user/README.md), all services will be placed behind an Ingress controller, acting as an API gateway.
 
 Additionally, the process of building Docker images and pushing them to Docker Hub is automated using GitHub Actions. This ensures that a Docker image in sync with the current source code is always available. You can easily pull the latest version of the Docker image from Docker Hub and deploy it in your environment.
+
+## To-Do: Monitoring and Logging Setup
+
+### Logging
+
+-   **Send logs to Loki:**
+    -   Configure Loki to receive logs from the application.
+    -   Implement a logging client to send logs in the desired format.
+-   **Set up log routing and filtering:**
+    -   Define rules for routing logs to appropriate destinations based on labels or content.
+    -   Implement filtering to reduce noise and focus on relevant logs.
+
+### Metrics
+
+-   **Monitor application metrics with Prometheus:**
+    -   Expose application metrics using a suitable metrics library (e.g., Prometheus client).
+    -   Configure Prometheus to scrape metrics from the application.
+    -   Create Prometheus rules to alert on critical metrics.
+-   **Visualize metrics using Grafana:**
+    -   Create dashboards to visualize key metrics and trends.
+    -   Set up alerts to notify on anomalies or critical events.
+
+### Node Monitoring
+
+-   **Monitor Kubernetes nodes with Prometheus:**
+    -   Deploy a Prometheus instance and configure it to scrape metrics from Kubernetes nodes.
+    -   Use node exporters to collect metrics about node resources (CPU, memory, disk, etc.).
+-   **Monitor Docker containers with Cadvisor:**
+    -   Enable Cadvisor on each node to collect container-level metrics.
+    -   Integrate Cadvisor metrics into Prometheus for visualization and alerting.
