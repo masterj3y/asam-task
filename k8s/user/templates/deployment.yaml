@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.backend.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Values.backend.name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.backend.name }}
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container: {{ .Values.backend.name }}
+      labels:
+        app: {{ .Values.backend.name }}
+    spec:
+      containers:
+        - name: {{ .Values.backend.name }}
+          image: "{{ .Values.backend.image }}:{{ .Values.backend.imageTag }}"
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 100m
+              memory: 200Mi
+            limits:
+              cpu: 200m
+              memory: 200Mi
+          env:
+            - name: PORT
+              value: {{ .Values.backend.port | quote }}
+            - name: MONGODB_URI
+              value: {{ .Values.backend.mongoDbUri }}
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.backend.name }}
+                  key: JWT_SECRET
+            - name: JWT_EXPIRATION
+              value: {{ .Values.backend.jwtExpiration }}
+          ports:
+            - containerPort: {{ .Values.backend.port }}
+      restartPolicy: Always

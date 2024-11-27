@@ -1,0 +1,22 @@
+backend:
+  name: backend
+  image: masterj3y/asam-task
+  imageTag: latest
+  port: 3000
+  jwtSecret: <put-your-jwt-secret-here>
+  jwtExpiration: 90d
+  mongoDbUri: mongodb://users-mongodb/usersdb
+  hpa:
+    minReplicas: 1
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 85
+
+mongodb:
+  auth:
+    enabled: false
+  persistence:
+    enabled: true
+    storageClass: "standard"
+    accessModes:
+      - ReadWriteOnce
+    size: "1Gi"
