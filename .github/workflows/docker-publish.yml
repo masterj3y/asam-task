@@ -7,6 +7,7 @@ on:
     paths:
       - ".github/workflows/**"
       - "src/**"
+      - "tests/**"
       - "package.json"
       - "bun.lockb"
   pull_request:
@@ -15,6 +16,7 @@ on:
     paths:
       - ".github/workflows/**"
       - "src/**"
+      - "tests/**"
       - "package.json"
       - "bun.lockb"
 
@@ -25,6 +27,24 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      # Install Bun
+      - name: Install Bun
+        run: |
+          curl -fsSL https://bun.sh/install | bash
+          echo "Bun installed"
+
+      # Add Bun to PATH
+      - name: Set up Bun
+        run: echo "$HOME/.bun/bin" >> $GITHUB_PATH
+
+      # Install dependencies
+      - name: Install dependencies
+        run: bun install
+
+      # Run tests
+      - name: Run Bun tests
+        run: ENV=test bun test
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2

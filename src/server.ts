@@ -4,11 +4,10 @@ import { authRoute } from './modules/auth/auth.route';
 import { authSchema } from './modules/auth/auth.schema';
 import fastifyJwt, { type FastifyJWT } from '@fastify/jwt';
 import { userRoute } from './modules/user/user.route';
-import { swaggerRoute } from './modules/swagger/swagger.route';
 import Swagger from '@fastify/swagger';
 import SwaggerUI from '@fastify/swagger-ui';
 
-const fastify = Fastify({ logger: true });
+export const fastify = Fastify({ logger: true });
 
 const port = Number(process.env.PORT);
 
@@ -54,7 +53,9 @@ fastify.register(fastifyJwt, {
     expiresIn: String(process.env.JWT_EXPIRATION)
   }
 });
-fastify.register(mongoose);
+
+if (process.env.ENV !== 'test')
+  fastify.register(mongoose);
 
 fastify.register(Swagger, {
   openapi: {
