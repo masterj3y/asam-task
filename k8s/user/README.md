@@ -24,7 +24,7 @@ If you're using minikube, enable the metrics-server using the file `k8s/qter/met
 
 **Install the Application**: Install the application using Helm:
 
-    helm install qter . -n <name-space> -f values.yaml
+    helm install users . -n <name-space> -f values.yaml
 
    Replace `<name-space>` with the desired namespace for your deployment.
 
