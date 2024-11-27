@@ -10,6 +10,7 @@ export const authRoute = (fastify: FastifyInstance, _options: AuthRouteOptions) 
     '/signup',
     {
       schema: {
+        tags: ['auth'],
         body: $ref('signUpRequestSchema'),
         response: {
           201: $ref('authResponseSchema'),
@@ -23,6 +24,7 @@ export const authRoute = (fastify: FastifyInstance, _options: AuthRouteOptions) 
     '/login',
     {
       schema: {
+        tags: ['auth'],
         body: $ref('loginRequestSchema'),
         response: {
           200: $ref('authResponseSchema'),

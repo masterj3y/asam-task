@@ -4,6 +4,9 @@ import { authRoute } from './modules/auth/auth.route';
 import { authSchema } from './modules/auth/auth.schema';
 import fastifyJwt, { type FastifyJWT } from '@fastify/jwt';
 import { userRoute } from './modules/user/user.route';
+import { swaggerRoute } from './modules/swagger/swagger.route';
+import Swagger from '@fastify/swagger';
+import SwaggerUI from '@fastify/swagger-ui';
 
 const fastify = Fastify({ logger: true });
 
@@ -52,13 +55,52 @@ fastify.register(fastifyJwt, {
   }
 });
 fastify.register(mongoose);
-fastify.register(authRoute, { prefix: 'api/v1/auth', });
+
+fastify.register(Swagger, {
+  openapi: {
+    openapi: '3.0.0',
+    info: {
+      title: 'Test swagger',
+      description: 'Testing the Fastify swagger API',
+      version: '0.1.0'
+    },
+    servers: [
+      {
+        url: 'http://localhost:8080',
+        description: 'Development server'
+      }
+    ],
+    tags: [
+      { name: 'auth', description: 'Auth related end-points' },
+      { name: 'users', description: 'users related end-points' },
+    ],
+    components: {
+      securitySchemes: {
+        BearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
+    },
+    externalDocs: {
+      url: 'https://swagger.io',
+      description: 'Find more info here'
+    }
+  }
+});
+
+fastify.register(SwaggerUI, {
+  routePrefix: '/docs',
+});
+
 fastify.register(userRoute, { prefix: 'api/v1/users', });
+fastify.register(authRoute, { prefix: 'api/v1/auth', });
 
 const start = () => {
   fastify.listen({ port, host: '0.0.0.0' }, (error) => {
     if (error) {
-      fastify.log.error('error running server ', error);
+      fastify.log.error('error running server', error);
     }
   });
 

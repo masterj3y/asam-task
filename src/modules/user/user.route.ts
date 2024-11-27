@@ -7,5 +7,18 @@ export const userRoute = (fastify: FastifyInstance, options: UserRouteOptions) =
 
   fastify.addHook('onRequest', fastify.authenticate);
 
-  fastify.get('/', getUsers);
+  fastify.get(
+    '/',
+    {
+      schema: {
+        tags: ['users'],
+        security: [
+          {
+            BearerAuth: [],
+          },
+        ],
+      }
+    },
+    getUsers
+  );
 }
