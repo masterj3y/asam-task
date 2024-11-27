@@ -1,4 +1,5 @@
-This project serves as an assessment to evaluate programming proficiency for ASAM
+This project serves as an assessment to evaluate programming proficiency for ASAM. ***This project is written using the Bun runtime. For ease of running the application, if Bun is not installed on your operating system, you can use the deployment method with Docker or Kubernetes.***
+
 ## Features
 
 1. **Authentication:**
